@@ -47,6 +47,11 @@ public class InterfaceUpdateRequest implements Serializable {
     private Integer status;
 
     /**
+     * 请求参数
+     */
+    private String requestParams;
+
+    /**
      * 请求类型
      */
     private String method;

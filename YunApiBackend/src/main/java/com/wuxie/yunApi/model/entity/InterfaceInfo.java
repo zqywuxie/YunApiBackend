@@ -72,10 +72,23 @@ public class InterfaceInfo implements Serializable {
     private Date updateTime;
 
     /**
+     * 请求参数
+     * todo 可以写上示例代码
+     * [
+     *   {
+     *     "name": "username",
+     *     "type": "string"
+     *   }
+     * ]
+     */
+    private String requestParams;
+
+    /**
      * 是否删除(0-未删, 1-已删)
      */
     @TableLogic
     private Integer isDeleted;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

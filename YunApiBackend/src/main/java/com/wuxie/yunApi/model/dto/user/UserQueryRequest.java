@@ -3,14 +3,14 @@ package com.wuxie.yunApi.model.dto.user;
 import com.wuxie.yunApi.common.PageRequest;
 
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * 用户查询请求
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author wuxie
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

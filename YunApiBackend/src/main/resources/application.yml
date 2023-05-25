@@ -87,3 +87,9 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
+
+
+yunapi:
+  client:
+    access-key: wuxie
+    serect-key: 123

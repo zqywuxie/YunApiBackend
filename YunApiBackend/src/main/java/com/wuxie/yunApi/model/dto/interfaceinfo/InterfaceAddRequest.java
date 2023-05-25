@@ -38,14 +38,17 @@ public class InterfaceAddRequest implements Serializable {
      */
     private String responseHeader;
 
+    /**
+     * 请求参数
+     */
+
+    private String requestParams;
 
 
     /**
      * 请求类型
      */
     private String method;
-
-
 
 
     private static final long serialVersionUID = 1L;
