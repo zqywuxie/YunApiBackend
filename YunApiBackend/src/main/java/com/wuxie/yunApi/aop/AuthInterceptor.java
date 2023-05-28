@@ -3,7 +3,6 @@ package com.wuxie.yunApi.aop;
 import com.wuxie.yunApi.annotation.AuthCheck;
 import com.wuxie.yunApi.common.ErrorCode;
 import com.wuxie.yunApi.exception.BusinessException;
-import com.wuxie.yunApi.model.entity.User;
 import com.wuxie.yunApi.model.enums.UserRoleEnum;
 import com.wuxie.yunApi.service.UserService;
 import javax.annotation.Resource;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import yunapiCommon.entity.User;
 
 /**
  * 权限校验 AOP

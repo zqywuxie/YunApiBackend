@@ -16,7 +16,6 @@ import com.wuxie.yunApi.model.dto.user.UserQueryRequest;
 import com.wuxie.yunApi.model.dto.user.UserRegisterRequest;
 import com.wuxie.yunApi.model.dto.user.UserUpdateMyRequest;
 import com.wuxie.yunApi.model.dto.user.UserUpdateRequest;
-import com.wuxie.yunApi.model.entity.User;
 import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.UserService;
@@ -36,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import yunapiCommon.entity.User;
 
 /**
  * 用户接口
@@ -53,6 +53,7 @@ public class UserController {
     private WxOpenConfig wxOpenConfig;
 
     // region 登录相关
+
 
     /**
      * 用户注册

@@ -1,10 +1,9 @@
 package com.wuxie.yunApi.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceQueryRequest;
-import com.wuxie.yunApi.model.entity.InterfaceInfo;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
+import yunapiCommon.entity.InterfaceInfo;
 
 import javax.servlet.http.HttpServletRequest;
 

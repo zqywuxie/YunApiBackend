@@ -5,28 +5,29 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wuxie.yunApi.common.ErrorCode;
 import com.wuxie.yunApi.constant.CommonConstant;
 import com.wuxie.yunApi.constant.UserConstant;
 import com.wuxie.yunApi.exception.BusinessException;
 import com.wuxie.yunApi.mapper.UserMapper;
-import com.wuxie.yunApi.common.ErrorCode;
 import com.wuxie.yunApi.model.dto.user.UserQueryRequest;
-import com.wuxie.yunApi.model.entity.User;
 import com.wuxie.yunApi.model.enums.UserRoleEnum;
 import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.UserService;
 import com.wuxie.yunApi.utils.SqlUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import yunapiCommon.entity.User;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务实现

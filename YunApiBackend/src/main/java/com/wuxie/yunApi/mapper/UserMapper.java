@@ -1,7 +1,8 @@
 package com.wuxie.yunApi.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wuxie.yunApi.model.entity.User;
+import yunapiCommon.entity.User;
 
 /**
  * 用户数据库操作

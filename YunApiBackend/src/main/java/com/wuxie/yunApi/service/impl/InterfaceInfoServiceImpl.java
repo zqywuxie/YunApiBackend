@@ -5,13 +5,13 @@ import com.wuxie.yunApi.common.ErrorCode;
 import com.wuxie.yunApi.exception.BusinessException;
 import com.wuxie.yunApi.exception.ThrowUtils;
 import com.wuxie.yunApi.mapper.InterfaceInfoMapper;
-import com.wuxie.yunApi.model.entity.InterfaceInfo;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import yunapiCommon.entity.InterfaceInfo;
 
 import javax.servlet.http.HttpServletRequest;
 

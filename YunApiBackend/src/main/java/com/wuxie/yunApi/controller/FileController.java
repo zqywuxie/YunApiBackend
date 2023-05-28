@@ -8,7 +8,6 @@ import com.wuxie.yunApi.constant.FileConstant;
 import com.wuxie.yunApi.exception.BusinessException;
 import com.wuxie.yunApi.manager.CosManager;
 import com.wuxie.yunApi.model.dto.file.UploadFileRequest;
-import com.wuxie.yunApi.model.entity.User;
 import com.wuxie.yunApi.model.enums.FileUploadBizEnum;
 import com.wuxie.yunApi.service.UserService;
 import java.io.File;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import yunapiCommon.entity.User;
 
 /**
  * 文件接口

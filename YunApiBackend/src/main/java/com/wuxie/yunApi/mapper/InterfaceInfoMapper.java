@@ -1,7 +1,8 @@
 package com.wuxie.yunApi.mapper;
 
-import com.wuxie.yunApi.model.entity.InterfaceInfo;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import yunapiCommon.entity.InterfaceInfo;
 
 /**
 * @author wuxie

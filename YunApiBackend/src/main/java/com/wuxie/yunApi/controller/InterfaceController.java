@@ -14,31 +14,30 @@ import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceAddRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceQueryRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceUpdateRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InvokeInterfaceRequest;
-import com.wuxie.yunApi.model.entity.InterfaceInfo;
-import com.wuxie.yunApi.model.entity.User;
+import com.wuxie.yunApi.model.enums.InterfaceInfoStatusEnum;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.UserService;
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
+import yunapiCommon.entity.InterfaceInfo;
+import yunapiCommon.entity.User;
 
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 帖子接口
+ * 接口
  */
 @RestController
 @RequestMapping("/post")
 @Slf4j
-public class InterfaceController  {
+public class InterfaceController {
 
     @Resource
     private InterfaceInfoService interfaceInfoService;
@@ -69,7 +68,7 @@ public class InterfaceController  {
         BeanUtils.copyProperties(interfaceAddRequest, interfaceInfo);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
-        interfaceInfoService.validInterface(interfaceInfo, false);
+        interfaceInfoService.validInterface(interfaceInfo, true);
 
         boolean result = interfaceInfoService.save(interfaceInfo);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
@@ -262,8 +261,8 @@ public class InterfaceController  {
 
         // 2. 判断接口是否能调用，实际去调用接口测试
         // todo 根据实际接口地址进行测试，目前只是固定测试
-        com.wuxie.yunapi.yunapiclientsdk.domin.User user = new com.wuxie.yunapi.yunapiclientsdk.domin.User();
-        user.setName("wuxie");
+        User user = new User();
+        user.setUserName("wuxie");
         String nameByPostWithJson = apiClient.getNameByPostWithJson(user);
         if (StringUtils.isBlank(nameByPostWithJson)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
@@ -312,7 +311,7 @@ public class InterfaceController  {
         long id = invokeInterfaceRequest.getId();
         InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
         if (interfaceInfo == null) {
-            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR,"调用接口不存在");
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "调用接口不存在");
         }
         if (interfaceInfo.getStatus() != InterfaceInfoStatusEnum.ONLINE.getValue()) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口未上线");
@@ -325,7 +324,7 @@ public class InterfaceController  {
         // 先写死请求
         String userRequestParams = invokeInterfaceRequest.getRequestParams();
         // todo JSON字符串转实体
-        com.wuxie.yunapi.yunapiclientsdk.domin.User user = JSONUtil.toBean(userRequestParams, com.wuxie.yunapi.yunapiclientsdk.domin.User.class);
+        User user = JSONUtil.toBean(userRequestParams, User.class);
         String result = client.getNameByPostWithJson(user);
         return ResultUtils.success(result);
     }

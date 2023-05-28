@@ -3,12 +3,13 @@ package com.wuxie.yunApi.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wuxie.yunApi.model.dto.user.UserQueryRequest;
-import com.wuxie.yunApi.model.entity.User;
 import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+import yunapiCommon.entity.User;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户服务

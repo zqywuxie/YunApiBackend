@@ -58,6 +58,25 @@ mybatis-plus:
       logic-delete-field: isDeleted # 全局逻辑删除的实体字段名
       logic-delete-value: 1 # 逻辑已删除值（默认为 1）
       logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
+yunapi:
+  client:
+    access-key: wuxie
+    serect-key: 123
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: 20881
+  # 注册中心地址
+  registry:
+    address: nacos://localhost:8848
+  application:
+    qos-enable: false
+    name: dubbo-springboot-demo-provider
+  consumer:
+    check: false
+    retries: 2
 # 微信相关
 wx:
   # 微信公众平台
@@ -89,7 +108,3 @@ cos:
     bucket: xxx
 
 
-yunapi:
-  client:
-    access-key: wuxie
-    serect-key: 123
