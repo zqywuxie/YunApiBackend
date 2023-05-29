@@ -1,0 +1,9 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+yunapi:
+  client:
+    access-key: wuxie
+    serect-key: 123
