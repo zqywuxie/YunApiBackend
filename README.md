@@ -1,4 +1,13 @@
-# 云Api免费开放平台
+<p align="center">
+<img src="https://wuxie-image.oss-cn-chengdu.aliyuncs.com/2023/09/19/logo.svg"/>
+</p>
+<h1 align="center"> 云Api免费开放平台</h1>
+<div align="center">
+    <img alt="Maven" src="https://raster.shields.io/badge/Maven-3.8.1-red.svg"/>
+   <img alt="SpringBoot" src="https://raster.shields.io/badge/SpringBoot-2.67+-green.svg"/>
+  <a href="https://github.com/qimu666/qi-api-sdk" target="_blank"><img src='https://img.shields.io/github/forks/zqywuxie/Study_Partner_backed' alt='GitHub forks' class="no-zoom"></a>
+  <a href="https://github.com/qimu666/qi-api-sdk" target="_blank"><img src='https://img.shields.io/github/stars/zqywuxie/Study_Partner_backed' alt='GitHub stars' class="no-zoom"></a>
+</div>
 
 > 一个可以接入免费Api的开放平台，为开发者提供便利、实用的Api调用体验
 >
@@ -28,6 +37,18 @@
 - 接口使用文档不全面，给一些刚开始学习的用户带来不便
 
 综合以上的痛点，打算开发一个简单，便捷使用的API开放平台。该平台为用户提供一些常见的接口，并且接口文档全面，用户根据生成的accessKey和secretKey，使用平台的SDK就可以快速进行开发。
+
+## 目录结构 📑
+
+| 目录                                                                | 描述     |
+|-------------------------------------------------------------------|--------|
+| **🏘️ [YunApiBacked](./YunApiBackend)**                           | 系统后端模块 |
+| **🏘️ [yunapi-common](./qi-api-common)**                          | 公共服务模块 |
+| **🕸️ [yunapi-gateway](./qi-api-gateway)**                        | 网关模块   |
+| **🛠 [yunapi-cliend-sdk](https://github.com/qimu666/qi-api-sdk)** | SDK模块  |
+| **🔗 [yunapi-interface](https://github.com/qimu666/qi-api-sdk)**  | 接口模块   |
+
+
 
 ## 技术栈
 
