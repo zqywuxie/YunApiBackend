@@ -15,7 +15,7 @@
 >
 > 前端代码：[zqywuxie/YunApiFrontend: 云API开放平台前端 (github.com)](https://github.com/zqywuxie/YunApiFrontend)
 >
-> 后端代码:[[zqywuxie/YunApiBackend: 云API开放平台后端 (github.com)](https://github.com/zqywuxie/YunApiBackend)](https://github.com/zqywuxie/Study_Partner_backed)
+> 后端代码：[zqywuxie/YunApiBackend: 云API开放平台后端 (github.com)](https://github.com/zqywuxie/YunApiBackend)
 
 ## 项目介绍
 
