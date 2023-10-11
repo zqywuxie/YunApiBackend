@@ -1,4 +1,4 @@
-package com.wuxie.yunapi.yunapiclientsdk;
+package com.wuxie.yunapi.yunapiclientsdk.config;
 
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
 import lombok.Data;

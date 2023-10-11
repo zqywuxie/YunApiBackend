@@ -1,7 +1,7 @@
-package com.wuxie.yunApi.common;
+package yunapiCommon.common;
 
-import com.wuxie.yunApi.constant.CommonConstant;
 import lombok.Data;
+import yunapiCommon.constant.CommonConstant;
 
 /**
  * 分页请求

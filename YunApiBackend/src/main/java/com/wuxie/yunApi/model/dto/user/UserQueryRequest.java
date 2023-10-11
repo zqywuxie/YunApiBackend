@@ -1,6 +1,6 @@
 package com.wuxie.yunApi.model.dto.user;
 
-import com.wuxie.yunApi.common.PageRequest;
+import yunapiCommon.common.PageRequest;
 
 import java.io.Serializable;
 

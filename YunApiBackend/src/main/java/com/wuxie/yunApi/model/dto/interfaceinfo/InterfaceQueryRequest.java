@@ -1,8 +1,6 @@
 package com.wuxie.yunApi.model.dto.interfaceinfo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.wuxie.yunApi.common.PageRequest;
+import yunapiCommon.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,2 +1,2 @@
 # spring boot starter
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.wuxie.yunapi.yunapiclientsdk.YunApiClientConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.wuxie.yunapi.yunapiclientsdk.config.YunApiClientConfig

@@ -1,6 +1,8 @@
 server:
   port: 9091
 spring:
+  application:
+    name: YunApiGateWay
   cloud:
     gateway:
       routes:
@@ -14,7 +16,7 @@ logging:
     org:
       springframework:
         cloud:
-         gateway: trace
+          gateway: trace
 
 dubbo:
   protocol:
@@ -25,6 +27,5 @@ dubbo:
     address: nacos://localhost:8848
   application:
     qos-enable: false
-    name: dubbo-springboot-demo-provider
   consumer:
     check: false

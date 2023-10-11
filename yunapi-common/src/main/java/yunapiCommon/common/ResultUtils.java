@@ -1,4 +1,4 @@
-package com.wuxie.yunApi.common;
+package yunapiCommon.common;
 
 /**
  * 返回工具类

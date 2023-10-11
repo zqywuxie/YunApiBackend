@@ -1,8 +1,8 @@
 package com.wuxie.yunApi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.exception.BusinessException;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.mapper.UserInterfaceInfoMapper;
 import com.wuxie.yunApi.model.vo.InvokeInterfaceInfoVO;
 import com.wuxie.yunApi.service.CharService;

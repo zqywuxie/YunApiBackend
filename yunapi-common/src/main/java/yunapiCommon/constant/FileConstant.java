@@ -1,4 +1,4 @@
-package com.wuxie.yunApi.constant;
+package yunapiCommon.constant;
 
 /**
  * 文件常量

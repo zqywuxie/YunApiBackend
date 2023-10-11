@@ -1,6 +1,7 @@
-package com.wuxie.yunApi.exception;
+package yunapiCommon.exception;
 
-import com.wuxie.yunApi.common.ErrorCode;
+
+import yunapiCommon.common.ErrorCode;
 
 /**
  * 抛异常工具类

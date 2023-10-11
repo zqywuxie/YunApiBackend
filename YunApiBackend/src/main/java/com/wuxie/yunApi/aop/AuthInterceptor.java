@@ -1,8 +1,8 @@
 package com.wuxie.yunApi.aop;
 
 import com.wuxie.yunApi.annotation.AuthCheck;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.exception.BusinessException;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.model.enums.UserRoleEnum;
 import com.wuxie.yunApi.service.UserService;
 import javax.annotation.Resource;

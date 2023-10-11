@@ -1,14 +1,10 @@
 package com.wuxie.yunApi.model.dto.userInterfaceInfo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.wuxie.yunApi.common.PageRequest;
+import yunapiCommon.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 接口查询请求

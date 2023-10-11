@@ -8,6 +8,8 @@ class YunapiClientSdkApplicationTests {
 
     @Test
     void contextLoads() {
+
+
     }
 
 }

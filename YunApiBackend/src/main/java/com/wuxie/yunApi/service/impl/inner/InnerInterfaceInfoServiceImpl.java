@@ -2,8 +2,8 @@ package com.wuxie.yunApi.service.impl.inner;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.exception.BusinessException;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.mapper.InterfaceInfoMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 import yunapiCommon.entity.InterfaceInfo;

@@ -1,9 +1,9 @@
 package com.wuxie.yunApi.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.exception.BusinessException;
-import com.wuxie.yunApi.exception.ThrowUtils;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.exception.BusinessException;
+import yunapiCommon.exception.ThrowUtils;
 import com.wuxie.yunApi.mapper.InterfaceInfoMapper;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
 import com.wuxie.yunApi.service.InterfaceInfoService;

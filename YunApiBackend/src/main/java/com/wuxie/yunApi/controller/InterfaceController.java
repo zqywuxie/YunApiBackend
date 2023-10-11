@@ -1,35 +1,47 @@
 package com.wuxie.yunApi.controller;
 
-import cn.hutool.json.JSONUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.wuxie.yunApi.annotation.AuthCheck;
-import com.wuxie.yunApi.common.*;
-import com.wuxie.yunApi.constant.CommonConstant;
-import com.wuxie.yunApi.constant.UserConstant;
-import com.wuxie.yunApi.exception.BusinessException;
-import com.wuxie.yunApi.exception.ThrowUtils;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceAddRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceQueryRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceUpdateRequest;
 import com.wuxie.yunApi.model.dto.interfaceinfo.InvokeInterfaceRequest;
 import com.wuxie.yunApi.model.enums.InterfaceInfoStatusEnum;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
+import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.UserService;
+import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
+import com.wuxie.yunapi.yunapiclientsdk.model.request.CustomRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.response.ResultResponse;
+import com.wuxie.yunapi.yunapiclientsdk.service.ApiService;
 import lombok.extern.slf4j.Slf4j;
+import nonapi.io.github.classgraph.json.Id;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
+import yunapiCommon.common.*;
+import yunapiCommon.constant.CommonConstant;
+import yunapiCommon.constant.UserConstant;
 import yunapiCommon.entity.InterfaceInfo;
 import yunapiCommon.entity.User;
-
+import yunapiCommon.exception.BusinessException;
+import yunapiCommon.exception.ThrowUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
+
+import static yunapiCommon.constant.InterfaceInfoConstant.DEFAULT_STATUS;
+
 
 /**
  * 接口
@@ -45,10 +57,14 @@ public class InterfaceController {
     @Resource
     private UserService userService;
 
-    @Resource
-    private APIClient apiClient;
+//    @Resource
+//    private APIClient apiClient;
 
-    private final static Gson GSON = new Gson();
+
+    @Resource
+    private ApiService apiService;
+
+    private final static Gson gson = new Gson();
 
     // region 增删改查
 
@@ -68,6 +84,7 @@ public class InterfaceController {
         BeanUtils.copyProperties(interfaceAddRequest, interfaceInfo);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
+        interfaceInfo.setStatus(DEFAULT_STATUS);
         interfaceInfoService.validInterface(interfaceInfo, true);
 
         boolean result = interfaceInfoService.save(interfaceInfo);
@@ -248,32 +265,10 @@ public class InterfaceController {
      */
     @PostMapping("/online")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> onlineInterface(@RequestBody IdRequest idRequest) throws UnsupportedEncodingException {
-        if (idRequest == null || idRequest.getId() <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-
-
-        // 1. 判断是否存在
-        long id = idRequest.getId();
-        InterfaceInfo oldPost = interfaceInfoService.getById(id);
-        ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
-
-        // 2. 判断接口是否能调用，实际去调用接口测试
-        // todo 根据实际接口地址进行测试，目前只是固定测试
-        User user = new User();
-        user.setUserName("wuxie");
-        String nameByPostWithJson = apiClient.getNameByPostWithJson(user);
-        if (StringUtils.isBlank(nameByPostWithJson)) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
-        }
-
-        InterfaceInfo interfaceInfo = new InterfaceInfo();
-        interfaceInfo.setId(id);
+    public BaseResponse<Boolean> onlineInterface(@RequestBody IdRequest idRequest) {
+        InterfaceInfo interfaceInfo = checkInterface(idRequest);
         interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
-
-        boolean result = interfaceInfoService.updateById(interfaceInfo);
-        return ResultUtils.success(result);
+        return ResultUtils.success(interfaceInfoService.updateById(interfaceInfo));
     }
 
     /**
@@ -285,30 +280,39 @@ public class InterfaceController {
     @PostMapping("/offline")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> offlineInterface(@RequestBody IdRequest idRequest) {
-        if (idRequest == null || idRequest.getId() <= 0) {
+        InterfaceInfo interfaceInfo = checkInterface(idRequest);
+        //2. 更新
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        return ResultUtils.success(interfaceInfoService.updateById(interfaceInfo));
+    }
+
+    /**
+     * 封装查询接口是否存在方法
+     *
+     * @param idRequest
+     * @return
+     */
+    public InterfaceInfo checkInterface(IdRequest idRequest) {
+        if (ObjectUtils.anyNull(idRequest, idRequest.getId()) || idRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
         //1. 判断是否存在
         long id = idRequest.getId();
-        InterfaceInfo oldPost = interfaceInfoService.getById(id);
-        ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
-
-        //2. 更新
-        InterfaceInfo interfaceInfo = new InterfaceInfo();
-        interfaceInfo.setId(id);
-        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
-        boolean result = interfaceInfoService.updateById(interfaceInfo);
-        return ResultUtils.success(result);
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
+        if (interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return interfaceInfo;
     }
 
     @PostMapping("/invoke")
-    public BaseResponse<Object> invokeInterface(@RequestBody InvokeInterfaceRequest invokeInterfaceRequest, HttpServletRequest request) throws UnsupportedEncodingException {
-        if (invokeInterfaceRequest == null || invokeInterfaceRequest.getId() < 0) {
+    public BaseResponse<Object> invokeInterface(@RequestBody InvokeInterfaceRequest invokeRequest, HttpServletRequest request) throws UnsupportedEncodingException {
+        if (invokeRequest == null || invokeRequest.getId() < 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         //1. 判断接口是否存在
-        long id = invokeInterfaceRequest.getId();
+        long id = invokeRequest.getId();
         InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
         if (interfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "调用接口不存在");
@@ -316,17 +320,44 @@ public class InterfaceController {
         if (interfaceInfo.getStatus() != InterfaceInfoStatusEnum.ONLINE.getValue()) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口未上线");
         }
-        //2. 得到当前用户
+
+        // 构建请求参数
+        List<InvokeInterfaceRequest.Field> fieldList = invokeRequest.getRequestParams();
+        String requestParams = "{}";
+        if (fieldList != null && !fieldList.isEmpty()) {
+            JsonObject jsonObject = new JsonObject();
+            for (InvokeInterfaceRequest.Field field : fieldList) {
+                jsonObject.addProperty(field.getFieldName(), field.getValue());
+            }
+            requestParams = gson.toJson(jsonObject);
+        }
+        Map<String, Object> params = new Gson().fromJson(requestParams, new TypeToken<Map<String, Object>>() {
+        }.getType());
         User loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
-        APIClient client = new APIClient(accessKey, secretKey);
-        // 先写死请求
-        String userRequestParams = invokeInterfaceRequest.getRequestParams();
-        // todo JSON字符串转实体
-        User user = JSONUtil.toBean(userRequestParams, User.class);
-        String result = client.getNameByPostWithJson(user);
-        return ResultUtils.success(result);
+        try {
+            APIClient apiClient = new APIClient(accessKey, secretKey);
+            CustomRequest currencyRequest = new CustomRequest();
+            currencyRequest.setMethod(interfaceInfo.getMethod());
+            currencyRequest.setPath(interfaceInfo.getUrl());
+            currencyRequest.setRequestParams(params);
+            ResultResponse response = apiService.request(currencyRequest, apiClient);
+            return ResultUtils.success(response.getData());
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, e.getMessage());
+        }
+//        //2. 得到当前用户
+//        User loginUser = userService.getLoginUser(request);
+//        String accessKey = loginUser.getAccessKey();
+//        String secretKey = loginUser.getSecretKey();
+//        APIClient client = new APIClient(accessKey, secretKey);
+//        // 先写死请求
+//        String userRequestParams = invokeRequest.getRequestParams();
+//        // todo JSON字符串转实体
+//        User user = JSONUtil.toBean(userRequestParams, User.class);
+//        String result = client.getNameByPostWithJson(user);
+//        return ResultUtils.success(result);
     }
 
     // endregion

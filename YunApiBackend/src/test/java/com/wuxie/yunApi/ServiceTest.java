@@ -19,7 +19,8 @@ public class ServiceTest {
 
     @Test
     public void InfoTest() {
-        boolean b = innerUserInterfaceInfoService.invokeInterfaceCount(1L, 2L);
-        System.out.println(b);
+        String path = "http://localhost:8023/api/ipInfo";
+        String[] split = path.split("/");
+        System.out.println(split[split.length - 1]);
     }
 }

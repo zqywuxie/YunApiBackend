@@ -1,4 +1,4 @@
-package com.wuxie.yunApi.common;
+package yunapiCommon.common;
 
 import lombok.Data;
 

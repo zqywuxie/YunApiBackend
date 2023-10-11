@@ -1,17 +1,16 @@
-package com.wuxie.yunApi.exception;
+package yunapiCommon.exception;
 
-import com.wuxie.yunApi.common.BaseResponse;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.common.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import yunapiCommon.common.BaseResponse;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.common.ResultUtils;
 
 /**
  * 全局异常处理器
  *
  * @author wuxie
-
  */
 @RestControllerAdvice
 @Slf4j

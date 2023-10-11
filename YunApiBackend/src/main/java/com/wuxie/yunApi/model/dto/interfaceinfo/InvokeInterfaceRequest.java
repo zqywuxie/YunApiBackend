@@ -3,6 +3,7 @@ package com.wuxie.yunApi.model.dto.interfaceinfo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -13,17 +14,21 @@ import java.io.Serializable;
 @Data
 public class InvokeInterfaceRequest implements Serializable {
 
+    private static final long serialVersionUID = -4267665863907711631L;
     /**
      * 主键
      */
     private Long id;
 
-    /**
-     * 请求参数
-     */
-    private String requestParams;
+    private List<Field> requestParams;
+//    private String userRequestParams;
 
-    private static final long serialVersionUID = -5240836761890121890L;
+    @Data
+    public static class Field {
+        private String fieldName;
+        private String value;
+    }
+
 
 
 }

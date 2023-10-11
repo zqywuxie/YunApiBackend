@@ -1,8 +1,8 @@
 package com.wuxie.yunApi.service.impl.inner;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.wuxie.yunApi.common.ErrorCode;
-import com.wuxie.yunApi.exception.BusinessException;
+import yunapiCommon.common.ErrorCode;
+import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.service.UserInterfaceInfoService;
 import org.apache.dubbo.config.annotation.DubboService;
 import yunapiCommon.entity.UserInterfaceInfo;

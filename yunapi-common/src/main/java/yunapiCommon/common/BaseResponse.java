@@ -1,7 +1,10 @@
-package com.wuxie.yunApi.common;
+package yunapiCommon.common;
 
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 通用返回类
@@ -11,6 +14,8 @@ import lombok.Data;
 
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseResponse<T> implements Serializable {
 
     private int code;
@@ -19,11 +24,6 @@ public class BaseResponse<T> implements Serializable {
 
     private String message;
 
-    public BaseResponse(int code, T data, String message) {
-        this.code = code;
-        this.data = data;
-        this.message = message;
-    }
 
     public BaseResponse(int code, T data) {
         this(code, data, "");
