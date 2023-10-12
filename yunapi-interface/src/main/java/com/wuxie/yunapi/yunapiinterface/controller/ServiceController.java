@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.wuxie.yunapi.yunapiinterface.utils.RequestUtils.buildUrl;
 import static com.wuxie.yunapi.yunapiinterface.utils.RequestUtils.get;
 import static com.wuxie.yunapi.yunapiinterface.utils.ResponseUtils.baseResponse;
 
@@ -30,5 +29,10 @@ public class ServiceController {
     @GetMapping("/loveTalk")
     public String randomLoveTalk() {
         return get("https://api.vvhan.com/api/love");
+    }
+
+    @GetMapping("/phone")
+    public ResultResponse getHomeOfPhone(PhoneParams phoneParams) {
+        return baseResponse("https://api.vvhan.com/api/phone",phoneParams);
     }
 }
