@@ -18,12 +18,21 @@
         <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
         <result property="isDeleted" column="isDeleted" jdbcType="TINYINT"/>
         <result property="requestParams" column="requestParams" jdbcType="VARCHAR"/>
+        <result property="responseParams" column="responseParams" jdbcType="VARCHAR"/>
+        <result property="requestExample" column="requestExample" jdbcType="VARCHAR"/>
+        <result property="returnType" column="returnType" jdbcType="VARCHAR"/>
+        <result property="returnExample" column="returnExample" jdbcType="VARCHAR"/>
+        <result property="avatarUrl" column="avatarUrl" jdbcType="VARCHAR"/>
+        <result property="invokeNum" column="invokeNum" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,name,description,
-        url,request_header,response_header,
-        status,method,user_id,
-        create_time,update_time,is_deleted,requestParams
+        url,requestHeader,responseHeader,
+        status,method,userId,
+        createTime,updateTime,isDeleted,
+        requestParams,responseParams,requestExample,
+        returnType,returnExample,avatarUrl,
+        invokeNum
     </sql>
 </mapper>

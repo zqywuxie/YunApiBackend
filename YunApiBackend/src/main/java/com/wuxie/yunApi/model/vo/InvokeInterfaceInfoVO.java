@@ -18,5 +18,5 @@ public class InvokeInterfaceInfoVO extends InterfaceInfo {
      * 接口调用次数
      */
 
-    private Integer invokeNum;
+    private Long invokeNum;
 }

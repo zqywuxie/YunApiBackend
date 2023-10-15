@@ -41,6 +41,8 @@ public class CharServiceImpl implements CharService {
         }
         LambdaQueryWrapper<InterfaceInfo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(InterfaceInfo::getId, voHashMap.keySet());
+
+
         List<InterfaceInfo> infoList = interfaceInfoService.list(queryWrapper);
         for (InterfaceInfo interfaceInfo : infoList) {
             voHashMap.get(interfaceInfo.getId()).setName(interfaceInfo.getName());

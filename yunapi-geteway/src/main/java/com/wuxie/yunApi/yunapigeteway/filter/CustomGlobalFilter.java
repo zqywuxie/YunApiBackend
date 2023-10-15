@@ -2,7 +2,6 @@ package com.wuxie.yunApi.yunapigeteway.filter;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wuxie.yunapi.yunapiclientsdk.utils.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.reactivestreams.Publisher;
@@ -26,6 +25,7 @@ import yunapiCommon.entity.User;
 import yunapiCommon.service.InnerInterfaceInfoService;
 import yunapiCommon.service.InnerUserInterfaceInfoService;
 import yunapiCommon.service.InnerUserService;
+import yunapiCommon.utils.SignUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

@@ -82,6 +82,40 @@ public class InterfaceInfo implements Serializable {
      */
     private String requestParams;
 
+
+    /**
+     * 返回参数
+     */
+    private String responseParams;
+
+
+    /**
+     * 请求示例
+     */
+    private String requestExample;
+
+    /**
+     * 返回类型
+     */
+    private String returnType;
+
+    /**
+     * 返回示例
+     */
+    private String returnExample;
+
+
+    /**
+     * 接口头像
+     */
+    private String avatarUrl;
+
+
+    /**
+     * 被调用次数
+     */
+    private Long invokeNum;
+
     /**
      * 是否删除(0-未删, 1-已删)
      */

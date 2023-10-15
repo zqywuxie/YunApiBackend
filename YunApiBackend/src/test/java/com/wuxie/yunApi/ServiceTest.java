@@ -1,11 +1,16 @@
 package com.wuxie.yunApi;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.UserInterfaceInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import yunapiCommon.entity.InterfaceInfo;
 import yunapiCommon.service.InnerUserInterfaceInfoService;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author wuxie
@@ -17,10 +22,18 @@ public class ServiceTest {
     @Resource
     private InnerUserInterfaceInfoService innerUserInterfaceInfoService;
 
+    @Resource
+    private InterfaceInfoService interfaceInfoService;
+
     @Test
     public void InfoTest() {
-        String path = "http://localhost:8023/api/ipInfo";
-        String[] split = path.split("/");
-        System.out.println(split[split.length - 1]);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(25,12);
+        map.put(27,12);
+        LambdaQueryWrapper<InterfaceInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(InterfaceInfo::getId, map.keySet());
+        List<InterfaceInfo> list = interfaceInfoService.list(queryWrapper);
+        System.out.println(list);
+
     }
 }
