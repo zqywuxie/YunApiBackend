@@ -40,13 +40,13 @@
 
 ## 目录结构 📑
 
-| 目录                                                                | 描述     |
-|-------------------------------------------------------------------|--------|
-| **🏘️ [YunApiBacked](./YunApiBackend)**                           | 系统后端模块 |
-| **🏘️ [yunapi-common](./qi-api-common)**                          | 公共服务模块 |
-| **🕸️ [yunapi-gateway](./qi-api-gateway)**                        | 网关模块   |
-| **🛠 [yunapi-cliend-sdk](https://github.com/qimu666/qi-api-sdk)** | SDK模块  |
-| **🔗 [yunapi-interface](https://github.com/qimu666/qi-api-sdk)**  | 接口模块   |
+| 目录                                                                     | 描述     |
+|------------------------------------------------------------------------|--------|
+| **🏘️ [YunApiBacked](./YunApiBackend)**                                | 系统后端模块 |
+| **🏘️ [yunapi-common](./yunapi-common)**                               | 公共服务模块 |
+| **🕸️ [yunapi-gateway](./yunapi-gateway)**                             | 网关模块   |
+| **🛠 [yunapi-cliend-sdk](https://github.com/zqywuxie/YunApi-JavaSDK)** | SDK模块  |
+| **🔗 [yunapi-interface](./yunapi-interface)**                          | 接口模块   |
 
 
 

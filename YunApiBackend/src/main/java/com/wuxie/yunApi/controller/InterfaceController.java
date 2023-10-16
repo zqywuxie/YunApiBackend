@@ -16,6 +16,7 @@ import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.UserService;
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
 import com.wuxie.yunapi.yunapiclientsdk.model.request.CustomRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.response.LoveTalkResponse;
 import com.wuxie.yunapi.yunapiclientsdk.model.response.ResultResponse;
 import com.wuxie.yunapi.yunapiclientsdk.service.ApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -357,6 +358,15 @@ public class InterfaceController {
 //        return ResultUtils.success(result);
     }
 
+    public void query() {
+
+        try {
+            LoveTalkResponse loveTalkResponse = apiService.loveTalk();
+            System.out.println(loveTalkResponse);
+        } catch (BusinessException e) {
+            log.error(e.getMessage());
+        }
+    }
     // endregion
 
 }
