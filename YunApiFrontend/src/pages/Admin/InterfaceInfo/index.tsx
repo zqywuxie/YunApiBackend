@@ -1,6 +1,7 @@
-import { InterfaceRequestMethodEnum } from '@/enum/commonEnum';
-import CreateModel from '@/pages/Admin/InterfaceInfo/components/CreateModel';
-import UpdateModel from '@/pages/Admin/InterfaceInfo/components/UpdateModel';
+import InterfaceInfoColumns, {
+  InterfaceInfoModalFormColumns,
+} from '@/pages/Admin/Columns/InterfaceInfoColumns';
+import ModelForm from '@/pages/Admin/InterfaceInfo/components/ModelForm';
 import {
   addInterfaceUsingPOST,
   deleteInterfaceUsingPOST,
@@ -21,17 +22,16 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Drawer, message, Tag } from 'antd';
+import { Button, Drawer, message, Popconfirm } from 'antd';
 import { SortOrder } from 'antd/lib/table/interface';
 import React, { useRef, useState } from 'react';
-import { Link } from 'umi';
 
 const TableList: React.FC = () => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalOpen, handleModalOpen] = useState<boolean>(false);
+  const [createModalOpen, handleCreateModalOpen] = useState<boolean>(false);
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
@@ -41,6 +41,77 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.InterfaceInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterfaceInfo[]>([]);
+  const columns: ProColumns<API.InterfaceInfo>[] = [
+    ...InterfaceInfoColumns,
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => [
+        <a
+          key="update"
+          onClick={() => {
+            setCurrentRow(record);
+            handleUpdateModalOpen(true);
+          }}
+        >
+          修改
+        </a>,
+        record.status === 0 ? (
+          <a
+            type="text"
+            key="auditing"
+            onClick={() => {
+              handleOnline(record);
+            }}
+          >
+            审核通过
+          </a>
+        ) : null,
+        record.status === 2 ? (
+          <a
+            type="text"
+            key="online"
+            onClick={() => {
+              handleOnline(record);
+            }}
+          >
+            上线
+          </a>
+        ) : null,
+        record.status === 1 ? (
+          <a
+            type="text"
+            key="offline"
+            style={{ color: 'red' }}
+            onClick={() => {
+              handleOffline(record);
+            }}
+          >
+            下线
+          </a>
+        ) : null,
+        <Popconfirm
+          key={'Delete'}
+          title="请确认是否删除该接口!"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <a
+            key="Remove"
+            style={{ color: 'red' }}
+            onClick={async () => {
+              setCurrentRow(record);
+            }}
+          >
+            删除
+          </a>
+        </Popconfirm>,
+      ],
+    },
+  ];
 
   /**
    * @en-US Add node
@@ -56,12 +127,12 @@ const TableList: React.FC = () => {
       hide();
       message.success('接口创建成功');
       actionRef.current?.reload();
-      handleModalOpen(false);
+      handleCreateModalOpen(false);
       return true;
     } catch (error: any) {
       hide();
       message.error('接口创建失败,error:' + error.message);
-      handleModalOpen(false);
+      handleCreateModalOpen(false);
       return false;
     }
   };
@@ -161,156 +232,18 @@ const TableList: React.FC = () => {
       return false;
     }
   };
+  const cancel = () => {
+    message.success('取消成功');
+  };
 
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
 
-  const columns: ProColumns<API.InterfaceInfo>[] = [
-    {
-      title: 'id',
-      dataIndex: 'id',
-      valueType: 'index',
-      hideInTable: true,
-    },
-    {
-      title: '接口名称',
-      dataIndex: 'name',
-      valueType: 'text',
-
-      // todo 点击名称进行跳转
-      render: (_, record) => (
-        <Link key={record.id} to={`/interfaceinfo/${record.id}`}>
-          {record.name}
-        </Link>
-      ),
-      ellipsis: true,
-    },
-    {
-      title: '描述',
-      dataIndex: 'description',
-      valueType: 'textarea',
-    },
-    {
-      title: '接口头像',
-      dataIndex: 'avatarUrl',
-      valueType: 'image',
-      width: 80,
-    },
-    {
-      title: '请求类型',
-      dataIndex: 'method',
-      filters: true,
-      width: 100,
-      onFilter: true,
-      valueType: 'text',
-      key: 'method',
-      render: (_, record) => (
-        <Tag color={InterfaceRequestMethodEnum[record.method ?? 'default']}>{record.method}</Tag>
-      ),
-      valueEnum: {
-        GET: {
-          text: 'GET',
-        },
-        POST: {
-          text: 'POST',
-        },
-        PUT: {
-          text: 'PUT',
-        },
-        DELETE: {
-          text: 'DELETE',
-        },
-      },
-    },
-    {
-      title: '请求地址',
-      dataIndex: 'url',
-      valueType: 'text',
-      copyable: true,
-    },
-
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      valueType: 'dateTime',
-      //todo 表单隐藏
-      hideInForm: true,
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
-      valueType: 'dateTime',
-      hideInForm: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: {
-          text: '已下线',
-          status: 'Default',
-        },
-        1: {
-          text: '已上线',
-          status: 'Processing',
-        },
-      },
-    },
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalOpen(true);
-            setCurrentRow(record);
-          }}
-        >
-          修改
-        </a>,
-        record.status === 0 ? (
-          <a
-            key="online"
-            onClick={() => {
-              handleOnline(record);
-            }}
-          >
-            上线
-          </a>
-        ) : (
-          <a
-            key="offline"
-            onClick={() => {
-              handleOffline(record);
-            }}
-          >
-            下线
-          </a>
-        ),
-
-        <a
-          key="delete"
-          onClick={() => {
-            handleRemove(record);
-          }}
-        >
-          删除
-        </a>,
-        // <a key="subscribeAlert" href="https://procomponents.ant.design/">
-        //   订阅警报
-        // </a>,
-      ],
-    },
-  ];
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -321,7 +254,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalOpen(true);
+              handleCreateModalOpen(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -340,7 +273,6 @@ const TableList: React.FC = () => {
           const res = await listInterfaceInfoByPageUsingGET({
             ...params,
           });
-          console.log(res.data);
           if (res?.data) {
             return {
               data: res.data.records || [],
@@ -398,11 +330,11 @@ const TableList: React.FC = () => {
         title={'新建接口'}
         width="400px"
         open={createModalOpen}
-        onOpenChange={handleModalOpen}
+        onOpenChange={handleCreateModalOpen}
         onFinish={async (value) => {
           const success = await handleAdd(value as API.RuleListItem);
           if (success) {
-            handleModalOpen(false);
+            handleCreateModalOpen(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }
@@ -422,9 +354,19 @@ const TableList: React.FC = () => {
         />
         <ProFormTextArea width="md" name="desc" />
       </ModalForm>
-      <UpdateModel
-        values={currentRow || {}}
-        columns={columns}
+      <ModelForm
+        title={'修改接口信息'}
+        open={() => {
+          return updateModalOpen;
+        }}
+        width={'840px'}
+        onOpenChange={handleUpdateModalOpen}
+        onCancel={() => {
+          handleUpdateModalOpen(false);
+          if (!showDetail) {
+            setCurrentRow(undefined);
+          }
+        }}
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
           if (success) {
@@ -435,14 +377,30 @@ const TableList: React.FC = () => {
             }
           }
         }}
-        onCancel={() => {
-          handleUpdateModalOpen(false);
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
-        visible={updateModalOpen}
+        columns={InterfaceInfoModalFormColumns}
+        value={currentRow || {}}
       />
+      {/*<ModalForm*/}
+      {/*  values={currentRow || {}}*/}
+      {/*  columns={InterfaceInfoModalFormColumns}*/}
+      {/*  onSubmit={async (value) => {*/}
+      {/*    const success = await handleUpdate(value);*/}
+      {/*    if (success) {*/}
+      {/*      handleUpdateModalOpen(false);*/}
+      {/*      setCurrentRow(undefined);*/}
+      {/*      if (actionRef.current) {*/}
+      {/*        actionRef.current.reload();*/}
+      {/*      }*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*  onCancel={() => {*/}
+      {/*    handleUpdateModalOpen(false);*/}
+      {/*    if (!showDetail) {*/}
+      {/*      setCurrentRow(undefined);*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*  visible={updateModalOpen}*/}
+      {/*/>*/}
 
       <Drawer
         width={600}
@@ -467,16 +425,42 @@ const TableList: React.FC = () => {
           />
         )}
       </Drawer>
-      <CreateModel
-        columns={columns}
+
+      <ModelForm
+        title={'创建接口'}
+        open={() => {
+          return createModalOpen;
+        }}
+        width={'840px'}
+        onOpenChange={handleCreateModalOpen}
         onCancel={() => {
-          handleModalOpen(false);
+          handleCreateModalOpen(false);
+          if (!showDetail) {
+            setCurrentRow(undefined);
+          }
         }}
-        onSubmit={(values) => {
-          return handleAdd(values);
+        onSubmit={async (value) => {
+          const success = await handleAdd(value);
+          if (success) {
+            handleCreateModalOpen(false);
+            setCurrentRow(undefined);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
         }}
-        visible={createModalOpen}
+        columns={InterfaceInfoModalFormColumns}
       />
+      {/*<CreateModel*/}
+      {/*  columns={columns}*/}
+      {/*  onCancel={() => {*/}
+      {/*    handleCreateModalOpen(false);*/}
+      {/*  }}*/}
+      {/*  onSubmit={(values) => {*/}
+      {/*    return handleAdd(values);*/}
+      {/*  }}*/}
+      {/*  visible={createModalOpen}*/}
+      {/*/>*/}
     </PageContainer>
   );
 };
