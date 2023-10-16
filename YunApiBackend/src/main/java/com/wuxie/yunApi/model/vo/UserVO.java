@@ -43,5 +43,27 @@ public class UserVO implements Serializable {
      */
     private Date createTime;
 
+    /**
+     * 唯一标识
+     */
+    private String accessKey;
+
+    /**
+     * 密钥
+     */
+    private String secretKey;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 手机号码
+     */
+    private String phone;
+
+    private String gender;
+
     private static final long serialVersionUID = 1L;
 }

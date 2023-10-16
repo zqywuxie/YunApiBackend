@@ -3,6 +3,7 @@ package com.wuxie.yunApi.model.dto.interfaceinfo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 接口更新请求
@@ -49,7 +50,11 @@ public class InterfaceUpdateRequest implements Serializable {
     /**
      * 请求参数
      */
-    private String requestParams;
+    private List<RequestParamsField> requestParams;
+    /**
+     * 请求参数
+     */
+    private List<ResponseParamsField> responseParams;
 
     /**
      * 请求类型

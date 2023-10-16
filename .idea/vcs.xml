@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/yunapi-client-sdk" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/yunapi-common" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/yunapi-geteway" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/yunapi-interface" vcs="Git" />

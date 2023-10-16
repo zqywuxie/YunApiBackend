@@ -1,13 +1,14 @@
 package com.wuxie.yunApi.model.dto.user;
 
 import java.io.Serializable;
+
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 /**
  * 用户更新请求
  *
  * @author wuxie
-
  */
 @Data
 public class UserUpdateRequest implements Serializable {
@@ -22,14 +23,17 @@ public class UserUpdateRequest implements Serializable {
     private String userName;
 
     /**
-     * 用户头像
+     * 性别
      */
-    private String userAvatar;
+
+    private String gender;
+
 
     /**
-     * 简介
+     * 密码
      */
-    private String userProfile;
+
+    private String userPassword;
 
     /**
      * 用户角色：user/admin/ban
