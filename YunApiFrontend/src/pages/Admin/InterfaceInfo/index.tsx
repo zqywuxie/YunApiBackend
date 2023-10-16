@@ -1,3 +1,4 @@
+import { InterfaceRequestMethodEnum } from '@/enum/commonEnum';
 import CreateModel from '@/pages/Admin/InterfaceInfo/components/CreateModel';
 import UpdateModel from '@/pages/Admin/InterfaceInfo/components/UpdateModel';
 import {
@@ -20,9 +21,10 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Drawer, message } from 'antd';
+import { Button, Drawer, message, Tag } from 'antd';
 import { SortOrder } from 'antd/lib/table/interface';
 import React, { useRef, useState } from 'react';
+import { Link } from 'umi';
 
 const TableList: React.FC = () => {
   /**
@@ -170,21 +172,20 @@ const TableList: React.FC = () => {
       title: 'id',
       dataIndex: 'id',
       valueType: 'index',
+      hideInTable: true,
     },
     {
       title: '接口名称',
       dataIndex: 'name',
       valueType: 'text',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '名称不超过20个字',
-            max: 20,
-            min: 2,
-          },
-        ],
-      },
+
+      // todo 点击名称进行跳转
+      render: (_, record) => (
+        <Link key={record.id} to={`/interfaceinfo/${record.id}`}>
+          {record.name}
+        </Link>
+      ),
+      ellipsis: true,
     },
     {
       title: '描述',
@@ -192,45 +193,44 @@ const TableList: React.FC = () => {
       valueType: 'textarea',
     },
     {
-      title: '请求方法',
+      title: '接口头像',
+      dataIndex: 'avatarUrl',
+      valueType: 'image',
+      width: 80,
+    },
+    {
+      title: '请求类型',
       dataIndex: 'method',
+      filters: true,
+      width: 100,
+      onFilter: true,
       valueType: 'text',
-    },
-    {
-      title: 'url',
-      dataIndex: 'url',
-      valueType: 'text',
-    },
-    {
-      title: '请求头',
-      dataIndex: 'requestHeader',
-      valueType: 'jsonCode',
-    },
-    {
-      title: '响应头',
-      dataIndex: 'responseHeader',
-      valueType: 'jsonCode',
-    },
-    {
-      title: '请求参数',
-      dataIndex: 'requestParams',
-      valueType: 'jsonCode',
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
+      key: 'method',
+      render: (_, record) => (
+        <Tag color={InterfaceRequestMethodEnum[record.method ?? 'default']}>{record.method}</Tag>
+      ),
       valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
+        GET: {
+          text: 'GET',
         },
-        1: {
-          text: '开启',
-          status: 'Processing',
+        POST: {
+          text: 'POST',
+        },
+        PUT: {
+          text: 'PUT',
+        },
+        DELETE: {
+          text: 'DELETE',
         },
       },
     },
+    {
+      title: '请求地址',
+      dataIndex: 'url',
+      valueType: 'text',
+      copyable: true,
+    },
+
     {
       title: '创建时间',
       dataIndex: 'createTime',
@@ -245,56 +245,62 @@ const TableList: React.FC = () => {
       hideInForm: true,
     },
     {
+      title: '状态',
+      dataIndex: 'status',
+      hideInForm: true,
+      valueEnum: {
+        0: {
+          text: '已下线',
+          status: 'Default',
+        },
+        1: {
+          text: '已上线',
+          status: 'Processing',
+        },
+      },
+    },
+    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <Button
-          size="small"
+        <a
           key="config"
-          type="primary"
           onClick={() => {
             handleUpdateModalOpen(true);
             setCurrentRow(record);
           }}
         >
           修改
-        </Button>,
+        </a>,
         record.status === 0 ? (
-          <Button
-            size="small"
+          <a
             key="online"
-            type={'primary'}
             onClick={() => {
               handleOnline(record);
             }}
           >
             上线
-          </Button>
+          </a>
         ) : (
-          <Button
-            size="small"
+          <a
             key="offline"
-            danger
             onClick={() => {
               handleOffline(record);
             }}
           >
             下线
-          </Button>
+          </a>
         ),
 
-        <Button
+        <a
           key="delete"
-          size="small"
-          type="primary"
           onClick={() => {
             handleRemove(record);
           }}
-          danger
         >
           删除
-        </Button>,
+        </a>,
         // <a key="subscribeAlert" href="https://procomponents.ant.design/">
         //   订阅警报
         // </a>,
@@ -356,6 +362,7 @@ const TableList: React.FC = () => {
           },
         }}
       />
+
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
           extra={
@@ -466,7 +473,7 @@ const TableList: React.FC = () => {
           handleModalOpen(false);
         }}
         onSubmit={(values) => {
-          handleAdd(values);
+          return handleAdd(values);
         }}
         visible={createModalOpen}
       />
