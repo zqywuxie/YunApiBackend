@@ -41,77 +41,6 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.InterfaceInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterfaceInfo[]>([]);
-  const columns: ProColumns<API.InterfaceInfo>[] = [
-    ...InterfaceInfoColumns,
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="update"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalOpen(true);
-          }}
-        >
-          修改
-        </a>,
-        record.status === 0 ? (
-          <a
-            type="text"
-            key="auditing"
-            onClick={() => {
-              handleOnline(record);
-            }}
-          >
-            审核通过
-          </a>
-        ) : null,
-        record.status === 2 ? (
-          <a
-            type="text"
-            key="online"
-            onClick={() => {
-              handleOnline(record);
-            }}
-          >
-            上线
-          </a>
-        ) : null,
-        record.status === 1 ? (
-          <a
-            type="text"
-            key="offline"
-            style={{ color: 'red' }}
-            onClick={() => {
-              handleOffline(record);
-            }}
-          >
-            下线
-          </a>
-        ) : null,
-        <Popconfirm
-          key={'Delete'}
-          title="请确认是否删除该接口!"
-          onConfirm={confirm}
-          onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <a
-            key="Remove"
-            style={{ color: 'red' }}
-            onClick={async () => {
-              setCurrentRow(record);
-            }}
-          >
-            删除
-          </a>
-        </Popconfirm>,
-      ],
-    },
-  ];
 
   /**
    * @en-US Add node
@@ -241,6 +170,78 @@ const TableList: React.FC = () => {
    * @zh-CN 国际化配置
    * */
 
+  const columns: ProColumns<API.InterfaceInfo>[] = [
+    ...InterfaceInfoColumns,
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => [
+        <a
+          key="update"
+          onClick={() => {
+            setCurrentRow(record);
+            handleUpdateModalOpen(true);
+          }}
+        >
+          修改
+        </a>,
+        record.status === 0 ? (
+          <a
+            type="text"
+            key="auditing"
+            onClick={() => {
+              handleOnline(record);
+            }}
+          >
+            审核通过
+          </a>
+        ) : null,
+        record.status === 2 ? (
+          <a
+            type="text"
+            key="online"
+            onClick={() => {
+              handleOnline(record);
+            }}
+          >
+            上线
+          </a>
+        ) : null,
+        record.status === 1 ? (
+          <a
+            type="text"
+            key="offline"
+            style={{ color: 'red' }}
+            onClick={() => {
+              handleOffline(record);
+            }}
+          >
+            下线
+          </a>
+        ) : null,
+        <Popconfirm
+          key={'Delete'}
+          title="请确认是否删除该接口!"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <a
+            key="Remove"
+            style={{ color: 'red' }}
+            onClick={async () => {
+              setCurrentRow(record);
+            }}
+          >
+            删除
+          </a>
+        </Popconfirm>,
+      ],
+    },
+  ];
+
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
@@ -267,7 +268,9 @@ const TableList: React.FC = () => {
             current?: number;
             keyword?: string;
           },
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           sort: Record<string, SortOrder>,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           filter: Record<string, (string | number)[] | null>,
         ) => {
           const res = await listInterfaceInfoByPageUsingGET({
