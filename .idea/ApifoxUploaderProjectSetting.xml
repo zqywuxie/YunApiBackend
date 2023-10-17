@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ApifoxUploaderProjectSetting">
+    <option name="apifoxAccessToken" value="APS-rInnYbq4otnUdUkNlBFBC5spwjtfUP2F" />
+    <option name="apifoxApiOverwriteMode" value="覆盖所有字段" />
+    <option name="apifoxProjectIds">
+      <array>
+        <option value="# ModuleName:ProjectID" />
+        <option value="Intelligent-scheduling:2375719" />
+        <option value="YunApiBackend:3429520" />
+      </array>
+    </option>
+    <option name="yapiTokens" value="" />
+  </component>
+</project>

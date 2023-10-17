@@ -1,12 +1,15 @@
 package com.wuxie.yunApi.aop;
 
 import com.wuxie.yunApi.annotation.AuthCheck;
+import com.wuxie.yunApi.model.enums.UserAccountStatusEnum;
 import yunapiCommon.common.ErrorCode;
 import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.model.enums.UserRoleEnum;
 import com.wuxie.yunApi.service.UserService;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,7 +24,6 @@ import yunapiCommon.entity.User;
  * 权限校验 AOP
  *
  * @author wuxie
-
  */
 @Aspect
 @Component
@@ -51,8 +53,9 @@ public class AuthInterceptor {
                 throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
             }
             String userRole = loginUser.getUserRole();
+            String status = loginUser.getStatus();
             // 如果被封号，直接拒绝
-            if (UserRoleEnum.BAN.equals(mustUserRoleEnum)) {
+            if (UserAccountStatusEnum.BAN.getValue().equals(status)) {
                 throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
             }
             // 必须有管理员权限

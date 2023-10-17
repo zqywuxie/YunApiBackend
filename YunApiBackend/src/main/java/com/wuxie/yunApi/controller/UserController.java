@@ -2,6 +2,8 @@ package com.wuxie.yunApi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wuxie.yunApi.annotation.AuthCheck;
+import com.wuxie.yunApi.model.dto.user.*;
+import com.wuxie.yunApi.service.MailService;
 import yunapiCommon.constant.UserConstant;
 import yunapiCommon.exception.BusinessException;
 import yunapiCommon.exception.ThrowUtils;
@@ -9,20 +11,14 @@ import yunapiCommon.common.BaseResponse;
 import yunapiCommon.common.DeleteRequest;
 import yunapiCommon.common.ErrorCode;
 import yunapiCommon.common.ResultUtils;
-import com.wuxie.yunApi.model.dto.user.UserAddRequest;
-import com.wuxie.yunApi.model.dto.user.UserLoginRequest;
-import com.wuxie.yunApi.model.dto.user.UserQueryRequest;
-import com.wuxie.yunApi.model.dto.user.UserRegisterRequest;
-import com.wuxie.yunApi.model.dto.user.UserUpdateMyRequest;
-import com.wuxie.yunApi.model.dto.user.UserUpdateRequest;
 import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.UserService;
 
 import java.util.List;
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +28,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import yunapiCommon.entity.User;
 
@@ -49,6 +44,8 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private MailService mailService;
 
 
     // region 登录相关
@@ -80,7 +77,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+    public BaseResponse<UserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -89,7 +86,25 @@ public class UserController {
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        UserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        return ResultUtils.success(loginUserVO);
+    }
+
+    @PostMapping("/emailLogin")
+    public BaseResponse<UserVO> userEmailLogin(@RequestBody UserEmailLoginRequest userEmailLoginRequest,HttpServletRequest request) throws MessagingException {
+
+
+        if (userEmailLoginRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String userEmail = userEmailLoginRequest.getEmailAccount();
+        String captcha = userEmailLoginRequest.getCaptcha();
+        if (StringUtils.isAnyBlank(userEmail, captcha)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        UserVO loginUserVO = userService.userEmailLogin(userEmailLoginRequest, request);
+
         return ResultUtils.success(loginUserVO);
     }
 
