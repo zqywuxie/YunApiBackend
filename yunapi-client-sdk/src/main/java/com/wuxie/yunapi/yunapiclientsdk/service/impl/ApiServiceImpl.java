@@ -6,7 +6,10 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
 import com.wuxie.yunapi.yunapiclientsdk.model.request.BaseRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.request.IpInfoRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.request.LoveTalkRequest;
 import com.wuxie.yunapi.yunapiclientsdk.model.request.PhoneRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.response.LoveTalkResponse;
 import com.wuxie.yunapi.yunapiclientsdk.model.response.PhoneResponse;
 import com.wuxie.yunapi.yunapiclientsdk.model.response.ResultResponse;
 import com.wuxie.yunapi.yunapiclientsdk.service.ApiService;
@@ -26,37 +29,25 @@ import java.util.HashMap;
 @Service
 public class ApiServiceImpl extends BaseService implements ApiService {
 
-
-    private static final String GATEWAY_HOST = "http://localhost:9091";
+    @Override
+    public ResultResponse getIpInfo(IpInfoRequest request) {
+        return request(request);
+    }
 
     @Override
-    public PhoneResponse homeOfPhone(APIClient apiClient, PhoneRequest request) {
-        return null;
+    public ResultResponse getIpInfo(APIClient apiClient, IpInfoRequest ipInfoRequest) {
+        return request(ipInfoRequest, apiClient);
     }
 
-    public String getNameByGet(String name) {
-        return HttpUtil.get(GATEWAY_HOST + "/api/name/" + name);
+    @Override
+    public LoveTalkResponse getLoveTalk() {
+        LoveTalkRequest loveTalkRequest = new LoveTalkRequest();
+        return request(loveTalkRequest);
     }
 
-    public String getNameByPost(String name) {
-        // 可以单独传入http参数，这样参数会自动做URL编码，拼接在URL中
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name", name);
-        return HttpUtil.post(GATEWAY_HOST + "/api/name", paramMap);
+    @Override
+    public LoveTalkResponse getLoveTalk(APIClient apiClient) {
+        LoveTalkRequest loveTalkRequest = new LoveTalkRequest();
+        return request(loveTalkRequest, apiClient);
     }
-
-    public String getNameByPostWithJson(User user) throws UnsupportedEncodingException {
-        String json = JSONUtil.toJsonStr(user);
-        HttpResponse response = HttpRequest.post(GATEWAY_HOST + "/api/name/user")
-                .addHeaders(BaseService.getHeaders(json, new APIClient()))
-                .body(json)
-                .execute();
-        System.out.println("response = " + response);
-        System.out.println("status = " + response.getStatus());
-        if (response.isOk()) {
-            return response.body();
-        }
-        return "fail";
-    }
-
 }

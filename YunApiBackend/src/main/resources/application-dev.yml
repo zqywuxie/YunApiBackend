@@ -28,8 +28,6 @@ spring:
   application:
     name: YunApiBackend
   # 默认 dev 环境
-  profiles:
-    active: dev
   # 支持 swagger3
   mvc:
     pathmatch:
@@ -66,6 +64,8 @@ spring:
     multipart:
       # 大小限制
       max-file-size: 10MB
+  profiles:
+    active: dev
 server:
   address: 0.0.0.0
   port: 8101
@@ -91,17 +91,15 @@ yunapi:
     serect-key: 123
 
 dubbo:
+  application:
+    name: dubbo-springboot-demo-provider
   protocol:
     name: dubbo
-    port: 20881
-  # 注册中心地址
+    port: -1
   registry:
+    id: nacos-registry
     address: nacos://localhost:8848
-  application:
-    qos-enable: false
-  consumer:
-    check: false
-    retries: 2
+
 
 
 ## 对象存储

@@ -54,9 +54,9 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     /**
      * 白名单
      */
-    private static final List<String> IP_WHITE_LIST = Arrays.asList("127.0.0.1", "127.0.0.2");
+    private static final List<String> IP_WHITE_LIST = Arrays.asList("127.0.0.1");
 
-    public static final String INTERFACE_HOST = "http://localhost:8023";
+//    public static final String INTERFACE_HOST = "http://localhost:8023";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -68,7 +68,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
             response.setStatusCode(HttpStatus.FORBIDDEN);
             return response.setComplete();
         }
-        String url = INTERFACE_HOST + request.getPath().value();
+        String url = request.getURI().toString().trim();
         String method = String.valueOf(request.getMethod());
 
         // 2. 请求日志

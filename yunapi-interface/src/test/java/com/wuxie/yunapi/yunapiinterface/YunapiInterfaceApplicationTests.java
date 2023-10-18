@@ -4,11 +4,9 @@ import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
 import com.wuxie.yunapi.yunapiinterface.utils.RequestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import yunapiCommon.entity.User;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 
 @SpringBootTest
 class YunapiInterfaceApplicationTests {

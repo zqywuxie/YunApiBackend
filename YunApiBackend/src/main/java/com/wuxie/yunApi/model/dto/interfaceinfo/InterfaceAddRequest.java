@@ -2,7 +2,6 @@ package com.wuxie.yunApi.model.dto.interfaceinfo;
 
 import lombok.Data;
 
-import javax.xml.ws.Response;
 import java.io.Serializable;
 import java.util.List;
 

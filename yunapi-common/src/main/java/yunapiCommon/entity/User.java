@@ -35,7 +35,7 @@ public class User implements Serializable {
     /**
      * 性别
      */
-    private Integer gender;
+    private String gender;
 
     /**
      * 用户昵称
@@ -82,7 +82,17 @@ public class User implements Serializable {
      */
     private String secretKey;
 
+    /**
+     * 邮箱
+     */
+    private String email;
 
+    /**
+     * 手机号码
+     */
+    private String phone;
+
+    private String status;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

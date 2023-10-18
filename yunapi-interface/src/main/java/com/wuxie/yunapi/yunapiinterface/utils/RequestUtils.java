@@ -1,14 +1,10 @@
 package com.wuxie.yunapi.yunapiinterface.utils;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 /**

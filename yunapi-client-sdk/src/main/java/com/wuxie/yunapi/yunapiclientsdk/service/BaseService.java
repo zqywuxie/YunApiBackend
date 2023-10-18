@@ -35,7 +35,11 @@ import java.util.Map;
 public abstract class BaseService implements ApiService {
 
     private APIClient apiClient;
-    private static final String GATEWAY_HOST = "http://localhost:9091/api/";
+    //todo gateway_host
+    /**
+     * 网关host
+     */
+    private static final String GATEWAY_HOST = "https://gateway.zqywuku.top/api";
 
 
     /**

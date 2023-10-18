@@ -215,3 +215,22 @@ npm run start:dev
 #### 个人中心
 
 ![image-20231016204955459](https://wuxie-image.oss-cn-chengdu.aliyuncs.com/2023/09/19/image-20231016204955459.png)
+
+
+
+## 🏠部署
+
+### 会出现的问题
+
+- 打包时，会出现没有yunapi-common的内容
+
+解决：因为interface和gateway引入的是SDK的东西，SDK又引入的common的，所以就将SDK模块重新 mvn install注入，就可以了
+
+- 打包成功后，java -jar 运行出现没有主清单属性
+
+![在这里插入图片描述](https://wuxie-image.oss-cn-chengdu.aliyuncs.com/2023/09/19/4e906f81ce68420b801158297f58d154.png)
+
+![在这里插入图片描述](https://wuxie-image.oss-cn-chengdu.aliyuncs.com/2023/09/19/2918e454a12742de875f42a90ef3198c.png)
+
+![在这里插入图片描述](https://wuxie-image.oss-cn-chengdu.aliyuncs.com/7932bbb4bfa54385aa897492d5439827.png)
+

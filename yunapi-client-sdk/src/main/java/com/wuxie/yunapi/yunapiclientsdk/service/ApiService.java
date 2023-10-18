@@ -3,7 +3,9 @@ package com.wuxie.yunapi.yunapiclientsdk.service;
 import cn.hutool.http.HttpResource;
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
 import com.wuxie.yunapi.yunapiclientsdk.model.request.BaseRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.request.IpInfoRequest;
 import com.wuxie.yunapi.yunapiclientsdk.model.request.PhoneRequest;
+import com.wuxie.yunapi.yunapiclientsdk.model.response.LoveTalkResponse;
 import com.wuxie.yunapi.yunapiclientsdk.model.response.PhoneResponse;
 import com.wuxie.yunapi.yunapiclientsdk.model.response.ResultResponse;
 import cn.hutool.http.HttpResponse;
@@ -20,21 +22,15 @@ import java.io.UnsupportedEncodingException;
  * @description 该文件的描述 todo
  */
 public interface ApiService {
-    /**
-     * 查询电话号归属地
-     *
-     * @param apiClient api服务端
-     * @param request   请求
-     * @return {@link PhoneResponse }
-     */
-    PhoneResponse homeOfPhone(APIClient apiClient, PhoneRequest request);
 
-    String getNameByGet(String name);
 
-    String getNameByPost(String name);
+    ResultResponse getIpInfo(IpInfoRequest request);
 
-    String getNameByPostWithJson(User user) throws UnsupportedEncodingException;
+    ResultResponse getIpInfo(APIClient apiClient, IpInfoRequest ipInfoRequest);
 
+    LoveTalkResponse getLoveTalk();
+
+    LoveTalkResponse getLoveTalk(APIClient apiClient);
 
     /**
      * 请求接口
@@ -47,6 +43,7 @@ public interface ApiService {
 
     /**
      * 提供客户端的请求
+     *
      * @param request
      * @param apiClient
      * @return {@link O}
