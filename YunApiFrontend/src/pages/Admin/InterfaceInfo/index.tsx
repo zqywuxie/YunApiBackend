@@ -47,7 +47,7 @@ const TableList: React.FC = () => {
    * @zh-CN 添加接口信息
    * @param fields
    */
-  const handleAdd = async (fields: API.InterfaceInfo) => {
+  const handleAdd = async (fields: API.InterfaceAddRequest) => {
     const hide = message.loading('正在添加');
     try {
       await addInterfaceUsingPOST({
@@ -72,24 +72,32 @@ const TableList: React.FC = () => {
    *
    * @param fields
    */
-  const handleUpdate = async (fields: API.InterfaceInfo) => {
-    const hide = message.loading('Configuring');
-    if (!currentRow) {
-      return;
-    }
+  const handleUpdate = async (fields: API.InterfaceUpdateRequest) => {
+    const hide = message.loading('修改中');
+    console.log(fields);
     try {
-      await updateInterfaceUsingPOST({
-        id: currentRow?.id,
-        ...fields,
-      });
-      hide();
-      message.success('修改成功');
-      handleUpdateModalOpen(false);
-      return true;
+      if (fields) {
+        if (fields.responseParams) {
+          fields.responseParams = JSON.parse(JSON.stringify(fields.responseParams));
+        } else {
+          fields.responseParams = [];
+        }
+        if (fields.requestParams) {
+          fields.requestParams = JSON.parse(JSON.stringify(fields.requestParams));
+        } else {
+          fields.requestParams = [];
+        }
+
+        const res = await updateInterfaceUsingPOST({ id: currentRow?.id, ...fields });
+        if (res.data && res.code === 0) {
+          hide();
+          message.success('修改成功');
+          return true;
+        }
+      }
     } catch (error: any) {
       hide();
-      message.error('修改失败,' + error.message);
-      handleUpdateModalOpen(false);
+      message.error('修改失败' + error.message);
       return false;
     }
   };
@@ -371,7 +379,8 @@ const TableList: React.FC = () => {
           }
         }}
         onSubmit={async (value) => {
-          const success = await handleUpdate(value);
+          console.log(value);
+          const success = await handleUpdate(value as API.InterfaceUpdateRequest);
           if (success) {
             handleUpdateModalOpen(false);
             setCurrentRow(undefined);
