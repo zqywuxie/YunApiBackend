@@ -11,7 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import yunapiCommon.entity.InterfaceInfo;
+import yunapiCommon.model.entity.InterfaceInfo;
 
 import javax.servlet.http.HttpServletRequest;
 

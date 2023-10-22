@@ -64,6 +64,7 @@ public class UserVO implements Serializable {
     private String phone;
 
     private String gender;
+    private String status;
 
     private static final long serialVersionUID = 1L;
 }

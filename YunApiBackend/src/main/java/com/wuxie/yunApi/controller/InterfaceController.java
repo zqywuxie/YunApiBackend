@@ -1,17 +1,17 @@
 package com.wuxie.yunApi.controller;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.nacos.common.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.wuxie.yunApi.annotation.AuthCheck;
-import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceAddRequest;
-import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceQueryRequest;
-import com.wuxie.yunApi.model.dto.interfaceinfo.InterfaceUpdateRequest;
-import com.wuxie.yunApi.model.dto.interfaceinfo.InvokeInterfaceRequest;
+import com.wuxie.yunApi.model.dto.interfaceinfo.*;
 import com.wuxie.yunApi.model.enums.InterfaceInfoStatusEnum;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
+import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.UserService;
 import com.wuxie.yunapi.yunapiclientsdk.client.APIClient;
@@ -26,16 +26,16 @@ import org.springframework.web.bind.annotation.*;
 import yunapiCommon.common.*;
 import yunapiCommon.constant.CommonConstant;
 import yunapiCommon.constant.UserConstant;
-import yunapiCommon.entity.InterfaceInfo;
-import yunapiCommon.entity.User;
 import yunapiCommon.exception.BusinessException;
 import yunapiCommon.exception.ThrowUtils;
+import yunapiCommon.model.entity.InterfaceInfo;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static yunapiCommon.constant.InterfaceInfoConstant.DEFAULT_STATUS;
 
@@ -79,7 +79,7 @@ public class InterfaceController {
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceAddRequest, interfaceInfo);
-        User loginUser = userService.getLoginUser(request);
+        UserVO loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
         interfaceInfo.setStatus(DEFAULT_STATUS);
         interfaceInfoService.validInterface(interfaceInfo, true);
@@ -102,7 +102,7 @@ public class InterfaceController {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        User user = userService.getLoginUser(request);
+        UserVO user = userService.getLoginUser(request);
         long id = deleteRequest.getId();
         // 判断是否存在
         InterfaceInfo oldPost = interfaceInfoService.getById(id);
@@ -123,19 +123,36 @@ public class InterfaceController {
      */
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> updateInterface(@RequestBody InterfaceUpdateRequest interfaceUpdateRequest) {
-        if (interfaceUpdateRequest == null || interfaceUpdateRequest.getId() <= 0) {
+    public BaseResponse<Boolean> updateInterface(@RequestBody InterfaceUpdateRequest interfaceUpdateRequest, HttpServletRequest request) {
+        if (ObjectUtils.anyNull(interfaceUpdateRequest, interfaceUpdateRequest.getId()) || interfaceUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        InterfaceInfo post = new InterfaceInfo();
-        BeanUtils.copyProperties(interfaceUpdateRequest, post);
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        if (CollectionUtils.isNotEmpty(interfaceUpdateRequest.getRequestParams())) {
+            List<RequestParamsField> requestParamsFields = interfaceUpdateRequest.getRequestParams().stream().filter(field -> StringUtils.isNotBlank(field.getFieldName())).collect(Collectors.toList());
+            String requestParams = JSONUtil.toJsonStr(requestParamsFields);
+            interfaceInfo.setRequestParams(requestParams);
+        }
+        if (CollectionUtils.isNotEmpty(interfaceUpdateRequest.getResponseParams())) {
+            List<ResponseParamsField> responseParamsFields = interfaceUpdateRequest.getResponseParams().stream().filter(field -> StringUtils.isNotBlank(field.getFieldName())).collect(Collectors.toList());
+            String responseParams = JSONUtil.toJsonStr(responseParamsFields);
+            interfaceInfo.setResponseParams(responseParams);
+        }
+        BeanUtils.copyProperties(interfaceUpdateRequest, interfaceInfo);
         // 参数校验
-        interfaceInfoService.validInterface(post, false);
+        interfaceInfoService.validInterface(interfaceInfo, false);
+        UserVO loginUser = userService.getLoginUser(request);
         long id = interfaceUpdateRequest.getId();
         // 判断是否存在
-        InterfaceInfo oldPost = interfaceInfoService.getById(id);
-        ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
-        boolean result = interfaceInfoService.updateById(post);
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 仅本人或管理员可修改
+        if (!userService.isAdmin(request) && !oldInterfaceInfo.getUserId().equals(loginUser.getId())) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
     }
 
@@ -330,7 +347,7 @@ public class InterfaceController {
         }
         Map<String, Object> params = new Gson().fromJson(requestParams, new TypeToken<Map<String, Object>>() {
         }.getType());
-        User loginUser = userService.getLoginUser(request);
+        UserVO loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         try {

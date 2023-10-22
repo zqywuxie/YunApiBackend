@@ -3,7 +3,7 @@ package com.wuxie.yunApi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wuxie.yunApi.model.vo.InterfaceInfoVO;
-import yunapiCommon.entity.InterfaceInfo;
+import yunapiCommon.model.entity.InterfaceInfo;
 
 import javax.servlet.http.HttpServletRequest;
 

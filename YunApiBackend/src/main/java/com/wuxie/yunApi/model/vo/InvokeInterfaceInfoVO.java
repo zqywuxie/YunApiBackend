@@ -1,7 +1,7 @@
 package com.wuxie.yunApi.model.vo;
 
 import lombok.Data;
-import yunapiCommon.entity.InterfaceInfo;
+import yunapiCommon.model.entity.InterfaceInfo;
 
 /**
  * @author wuxie

@@ -11,7 +11,6 @@ import yunapiCommon.common.BaseResponse;
 import yunapiCommon.common.DeleteRequest;
 import yunapiCommon.common.ErrorCode;
 import yunapiCommon.common.ResultUtils;
-import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
 import com.wuxie.yunApi.service.UserService;
 
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import yunapiCommon.entity.User;
+import yunapiCommon.model.entity.User;
 
 /**
  * 用户接口
@@ -48,7 +47,7 @@ public class UserController {
     private MailService mailService;
 
 
-    // region 登录相关
+    // region 登录，注册
 
 
     /**
@@ -131,9 +130,9 @@ public class UserController {
      * @return
      */
     @GetMapping("/get/login")
-    public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
-        User user = userService.getLoginUser(request);
-        return ResultUtils.success(userService.getLoginUserVO(user));
+    public BaseResponse<UserVO> getLoginUser(HttpServletRequest request) {
+        UserVO user = userService.getLoginUser(request);
+        return ResultUtils.success(user);
     }
 
     // endregion
@@ -273,8 +272,6 @@ public class UserController {
         return ResultUtils.success(userVOPage);
     }
 
-    // endregion
-
     /**
      * 更新个人信息
      *
@@ -288,7 +285,7 @@ public class UserController {
         if (userUpdateMyRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        User loginUser = userService.getLoginUser(request);
+        UserVO loginUser = userService.getLoginUser(request);
         User user = new User();
         BeanUtils.copyProperties(userUpdateMyRequest, user);
         user.setId(loginUser.getId());
@@ -296,4 +293,7 @@ public class UserController {
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
+    // endregion
+
+
 }

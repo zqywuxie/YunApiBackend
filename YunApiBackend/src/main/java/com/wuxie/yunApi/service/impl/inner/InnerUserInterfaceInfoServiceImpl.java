@@ -5,7 +5,7 @@ import yunapiCommon.common.ErrorCode;
 import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.service.UserInterfaceInfoService;
 import org.apache.dubbo.config.annotation.DubboService;
-import yunapiCommon.entity.UserInterfaceInfo;
+import yunapiCommon.model.entity.UserInterfaceInfo;
 import yunapiCommon.service.InnerUserInterfaceInfoService;
 
 import javax.annotation.Resource;

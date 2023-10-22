@@ -19,11 +19,8 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.wuxie.yunApi</groupId>
-            <artifactId>yunapi-common</artifactId>
-            <version>0.0.1</version>
-        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -60,6 +57,11 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.19.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>

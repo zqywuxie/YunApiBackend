@@ -1,19 +1,14 @@
 package com.wuxie.yunApi;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import com.wuxie.yunApi.service.MailService;
-import com.wuxie.yunApi.service.UserInterfaceInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import yunapiCommon.entity.InterfaceInfo;
 import yunapiCommon.service.InnerUserInterfaceInfoService;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.wuxie.yunApi.constant.EmailConstant.CAPTCHA_CACHE_KEY;

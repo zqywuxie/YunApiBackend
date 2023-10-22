@@ -8,7 +8,7 @@ import com.wuxie.yunApi.model.vo.InvokeInterfaceInfoVO;
 import com.wuxie.yunApi.service.CharService;
 import com.wuxie.yunApi.service.InterfaceInfoService;
 import org.springframework.stereotype.Service;
-import yunapiCommon.entity.InterfaceInfo;
+import yunapiCommon.model.entity.InterfaceInfo;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

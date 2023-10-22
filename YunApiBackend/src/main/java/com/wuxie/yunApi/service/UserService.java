@@ -6,7 +6,7 @@ import com.wuxie.yunApi.model.dto.user.UserEmailLoginRequest;
 import com.wuxie.yunApi.model.dto.user.UserQueryRequest;
 import com.wuxie.yunApi.model.vo.LoginUserVO;
 import com.wuxie.yunApi.model.vo.UserVO;
-import yunapiCommon.entity.User;
+import yunapiCommon.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -48,7 +48,7 @@ public interface UserService extends IService<User> {
      * @param request
      * @return
      */
-    User getLoginUser(HttpServletRequest request);
+    UserVO getLoginUser(HttpServletRequest request);
 
     /**
      * 获取当前登录用户（允许未登录）

@@ -2,12 +2,13 @@ package com.wuxie.yunApi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 全局跨域配置
  *
- * @author qimu
+ * @author wuxie
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

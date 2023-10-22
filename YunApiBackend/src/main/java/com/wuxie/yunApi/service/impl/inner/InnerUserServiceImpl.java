@@ -6,7 +6,7 @@ import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
-import yunapiCommon.entity.User;
+import yunapiCommon.model.entity.User;
 import yunapiCommon.service.InnerUserService;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ public class InnerUserServiceImpl implements InnerUserService {
 
 
     @Override
-    public User getInvokeUser(String accessKey) {
+    public User getInvokeUserByAccessKey(String accessKey) {
         if (StringUtils.isAnyBlank(accessKey)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }

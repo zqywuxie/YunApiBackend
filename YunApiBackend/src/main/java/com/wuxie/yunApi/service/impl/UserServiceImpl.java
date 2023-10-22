@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wuxie.yunApi.model.dto.user.UserEmailLoginRequest;
-import com.wuxie.yunApi.model.enums.UserAccountStatusEnum;
+import yunapiCommon.model.entity.User;
+import yunapiCommon.model.enums.UserAccountStatusEnum;
 import org.springframework.data.redis.core.RedisTemplate;
 import yunapiCommon.common.ErrorCode;
 
@@ -24,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import yunapiCommon.entity.User;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -177,7 +177,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public User getLoginUser(HttpServletRequest request) {
+    public UserVO getLoginUser(HttpServletRequest request) {
         // 先判断是否已登录
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
@@ -190,7 +190,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (currentUser == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
-        return currentUser;
+        return this.getUserVO(currentUser);
     }
 
     /**

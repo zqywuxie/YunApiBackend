@@ -9,7 +9,7 @@ import yunapiCommon.exception.ThrowUtils;
 import com.wuxie.yunApi.service.UserInterfaceInfoService;
 import com.wuxie.yunApi.mapper.UserInterfaceInfoMapper;
 import org.springframework.stereotype.Service;
-import yunapiCommon.entity.UserInterfaceInfo;
+import yunapiCommon.model.entity.UserInterfaceInfo;
 
 /**
  * @author wuxie

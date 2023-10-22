@@ -2,7 +2,7 @@ package com.wuxie.yunApi.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import yunapiCommon.entity.UserInterfaceInfo;
+import yunapiCommon.model.entity.UserInterfaceInfo;
 
 /**
  * @author wuxie

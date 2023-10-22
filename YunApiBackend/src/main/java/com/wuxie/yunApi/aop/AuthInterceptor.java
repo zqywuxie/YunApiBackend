@@ -1,7 +1,8 @@
 package com.wuxie.yunApi.aop;
 
 import com.wuxie.yunApi.annotation.AuthCheck;
-import com.wuxie.yunApi.model.enums.UserAccountStatusEnum;
+import yunapiCommon.model.enums.UserAccountStatusEnum;
+import com.wuxie.yunApi.model.vo.UserVO;
 import yunapiCommon.common.ErrorCode;
 import yunapiCommon.exception.BusinessException;
 import com.wuxie.yunApi.model.enums.UserRoleEnum;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import yunapiCommon.entity.User;
 
 /**
  * 权限校验 AOP
@@ -45,7 +45,7 @@ public class AuthInterceptor {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         // 当前登录用户
-        User loginUser = userService.getLoginUser(request);
+        UserVO loginUser = userService.getLoginUser(request);
         // 必须有该权限才通过
         if (StringUtils.isNotBlank(mustRole)) {
             UserRoleEnum mustUserRoleEnum = UserRoleEnum.getEnumByValue(mustRole);
